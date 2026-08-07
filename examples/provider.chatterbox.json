@@ -1,0 +1,7 @@
+{
+  "referenceAudio": "/absolute/path/to/licensed-female-storyteller.wav",
+  "exaggeration": 0.75,
+  "temperature": 0.8,
+  "cfgWeight": 0.45
+}
+

@@ -1,0 +1,36 @@
+{
+  "name": "voice-accessibility-sdk",
+  "version": "0.1.0",
+  "description": "Provider-neutral voice accessibility SDK for Twine, HTML games, and game-engine web builds",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/voice-accessibility-sdk.esm.js",
+  "module": "./dist/voice-accessibility-sdk.esm.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": "./dist/voice-accessibility-sdk.esm.js",
+    "./server": "./node/vocalbridge-token-handler.mjs"
+  },
+  "files": ["dist", "src", "types", "node", "python", "examples", "README.md", "LICENSE"],
+  "bin": {
+    "voice-sdk-extract-twine": "./node/extract-twine.mjs",
+    "voice-sdk-integrate-twine": "./node/integrate-twine.mjs",
+    "voice-sdk-generate": "./node/generate-audio.mjs"
+  },
+  "scripts": {
+    "build": "esbuild src/browser.mjs --bundle --format=iife --global-name=VoiceAccessibilitySDK --outfile=dist/voice-accessibility-sdk.iife.js && esbuild src/index.mjs --bundle --format=esm --outfile=dist/voice-accessibility-sdk.esm.js",
+    "test": "node --test test/*.test.mjs",
+    "check": "npm run build && npm test",
+    "prepack": "npm run check"
+  },
+  "dependencies": {
+    "@vocalbridgeai/sdk": "^0.1.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": ["accessibility", "games", "twine", "text-to-speech", "speech-to-text", "voice"]
+}

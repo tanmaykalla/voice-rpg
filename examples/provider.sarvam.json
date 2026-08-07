@@ -1,0 +1,10 @@
+{
+  "model": "bulbul:v3",
+  "speaker": "simran",
+  "language": "en-IN",
+  "pace": 0.92,
+  "temperature": 0.8,
+  "sampleRate": 48000,
+  "codec": "wav"
+}
+
