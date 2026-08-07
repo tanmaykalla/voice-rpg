@@ -13,6 +13,14 @@ The repository contains:
 - Provider interfaces so applications can add other TTS or STT services.
 - A repository-owned Codex skill that inventories narration and valid actions and builds a reviewable integration.
 
+## Reference demo
+
+- **Voice-enabled implementation:** [`tanmaykalla/anxiety-voice-accessibility-demo`](https://github.com/tanmaykalla/anxiety-voice-accessibility-demo)
+- **Original game:** [*Adventures With Anxiety* by Nicky Case](https://ncase.me/anxiety/)
+- **Original source and full credits:** [`ncase/anxiety`](https://github.com/ncase/anxiety)
+
+The demo applies this architecture non-invasively to the existing CC0 HTML game: DOM observation for narration and current choices, server-tokenized Vocal Bridge STT, deterministic matching, activation of the original game controls, optional audio-manifest TTS, and an observer HUD for accuracy and latency. It is a fan-made accessibility demonstration, not an official edition; its repository preserves the creator credits and explicitly disclaims ownership of the original game.
+
 ## AI-assisted game integration
 
 Codex users can invoke [`$integrate-voice-accessibility`](.agents/skills/integrate-voice-accessibility/SKILL.md) from this repository to inspect a Twine, HTML, Unity, Godot, or custom game project. The skill generates or updates a stable voice manifest, adds the appropriate adapter, labels ambiguous controls for review, and verifies the integration.
@@ -20,10 +28,6 @@ Codex users can invoke [`$integrate-voice-accessibility`](.agents/skills/integra
 The skill runs during development. It does not place an LLM agent in the shipped game: runtime speech remains constrained to the actions supplied by the current game state.
 
 For controls without visible text, integrations can provide `data-voice-label` and comma-separated `data-voice-aliases`. Engine choices accept the equivalent `label` and `aliases` fields.
-
-### Reference demo
-
-[`anxiety-voice-accessibility-demo`](https://github.com/tanmaykalla/anxiety-voice-accessibility-demo) shows the architecture applied non-invasively to Nicky Case's CC0 game *Adventures With Anxiety*: DOM observation for narration and current choices, server-tokenized Vocal Bridge STT, deterministic matching, activation of the original game controls, optional audio-manifest TTS, and an observer HUD for accuracy and latency. The demo repository preserves the original creator credits and explicitly disclaims ownership of the game.
 
 ## Architecture
 
