@@ -8,6 +8,10 @@ const input = process.argv[2], outputDir = process.argv[3];
 if (!input || !outputDir) { console.error("Usage: voice-sdk-integrate-twine game.html output-directory"); process.exit(1); }
 await mkdir(resolve(outputDir), { recursive: true });
 let html = await readFile(resolve(input), "utf8");
+// Make re-packaging idempotent and remove prototype overlays from earlier
+// experiments so only one accessibility runtime observes the story.
+html = html.replace(/<script\s+src=["'](?:matcher|vocalbridge-stt|twine-harlowe-layer|voice-accessibility-sdk\.iife|voice-sdk-bootstrap)\.js["']\s*><\/script>\s*/gi, "");
+html = html.replace(/<button\s+id=["']voice-sdk-enable["'][\s\S]*?<\/button>\s*<div\s+id=["']voice-sdk-status["'][\s\S]*?<\/div>\s*/gi, "");
 const injection = `
 <button id="voice-sdk-enable" style="position:fixed;right:12px;bottom:12px;z-index:2147483647;padding:10px 14px">Enable voice</button>
 <div id="voice-sdk-status" aria-live="polite" style="position:fixed;left:12px;bottom:12px;z-index:2147483647;background:#111;color:#fff;padding:8px;max-width:55vw;font:13px system-ui">Voice accessibility ready</div>
@@ -32,6 +36,8 @@ await writeFile(join(resolve(outputDir), "voice-sdk-bootstrap.js"), `
   });
   runtime.addEventListener("status", (event) => setStatus(event.detail.message));
   runtime.addEventListener("interim", (event) => setStatus('Heard: "' + event.detail.text + '"'));
+  status.dataset.sdkLoaded = "true";
+  setStatus("SDK loaded — click Enable voice");
   document.getElementById("voice-sdk-enable").addEventListener("click", (event) => {
     event.currentTarget.textContent = "Voice active";
     event.currentTarget.disabled = true;
@@ -41,4 +47,3 @@ await writeFile(join(resolve(outputDir), "voice-sdk-bootstrap.js"), `
 })();
 `);
 console.log(`Integrated ${basename(input)} into ${resolve(outputDir)}`);
-
