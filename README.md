@@ -23,7 +23,7 @@ For controls without visible text, integrations can provide `data-voice-label` a
 
 ### Reference demo
 
-[`anxiety-voice-accessibility-demo`](https://github.com/tanmaykalla/anxiety-voice-accessibility-demo) shows the architecture applied non-invasively to an existing HTML game: DOM observation for narration and current choices, server-tokenized Vocal Bridge STT, deterministic matching, activation of the original game controls, optional audio-manifest TTS, and an observer HUD for accuracy and latency.
+[`anxiety-voice-accessibility-demo`](https://github.com/tanmaykalla/anxiety-voice-accessibility-demo) shows the architecture applied non-invasively to Nicky Case's CC0 game *Adventures With Anxiety*: DOM observation for narration and current choices, server-tokenized Vocal Bridge STT, deterministic matching, activation of the original game controls, optional audio-manifest TTS, and an observer HUD for accuracy and latency. The demo repository preserves the original creator credits and explicitly disclaims ownership of the game.
 
 ## Architecture
 
