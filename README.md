@@ -21,6 +21,10 @@ The skill runs during development. It does not place an LLM agent in the shipped
 
 For controls without visible text, integrations can provide `data-voice-label` and comma-separated `data-voice-aliases`. Engine choices accept the equivalent `label` and `aliases` fields.
 
+### Reference demo
+
+[`anxiety-voice-accessibility-demo`](https://github.com/tanmaykalla/anxiety-voice-accessibility-demo) shows the architecture applied non-invasively to an existing HTML game: DOM observation for narration and current choices, server-tokenized Vocal Bridge STT, deterministic matching, activation of the original game controls, optional audio-manifest TTS, and an observer HUD for accuracy and latency.
+
 ## Architecture
 
 Authored narration is generated once, not during gameplay:
