@@ -6,6 +6,14 @@ function visible(element) {
   return style.display !== "none" && style.visibility !== "hidden" && style.opacity !== "0";
 }
 
+function voiceLabel(element) {
+  return cleanText(element?.getAttribute("data-voice-label") || element?.getAttribute("aria-label") || element?.textContent);
+}
+
+function voiceAliases(element) {
+  return (element?.getAttribute("data-voice-aliases") || "").split(",").map(cleanText).filter(Boolean);
+}
+
 export class TwineHarloweAdapter {
   constructor({ runtime, storyId = document.title || "twine", passageSelector = "tw-passage", choiceSelector = "tw-link", settleMs = 150 } = {}) {
     if (!runtime) throw new Error("TwineHarloweAdapter requires a runtime");
@@ -31,7 +39,7 @@ export class TwineHarloweAdapter {
   extract() {
     const passage = this.activePassage();
     if (!passage) return null;
-    const elements = Array.from(passage.querySelectorAll(this.choiceSelector)).filter((item) => visible(item) && !item.closest("tw-sidebar") && cleanText(item.textContent));
+    const elements = Array.from(passage.querySelectorAll(this.choiceSelector)).filter((item) => visible(item) && !item.closest("tw-sidebar") && voiceLabel(item));
     const clone = passage.cloneNode(true);
     clone.querySelectorAll(`${this.choiceSelector}, tw-sidebar, script, style, tw-error, tw-notifier`).forEach((node) => node.remove());
     clone.querySelectorAll('span[style*="font-size: 40%"], span[style*="font-size:40%"]')?.forEach((node) => node.remove());
@@ -42,7 +50,8 @@ export class TwineHarloweAdapter {
     const id = stableLineId(this.storyId, "narration", text);
     const choices = elements.map((element, index) => ({
       id: element.getAttribute("data-passage") || `${name}:${index + 1}`,
-      label: cleanText(element.textContent),
+      label: voiceLabel(element),
+      aliases: voiceAliases(element),
       activate: () => element.click(),
     }));
     return { id, key: name, text, speaker: "narrator", choices, metadata: { passage: name } };

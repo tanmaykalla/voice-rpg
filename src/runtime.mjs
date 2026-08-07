@@ -36,7 +36,12 @@ export class AccessibilityRuntime extends EventTarget {
     const id = turn.id || stableLineId(this.scope, turn.key || "turn", turn.text || "");
     const choices = (turn.choices || []).map((choice, index) => typeof choice === "string"
       ? { id: String(index + 1), label: cleanText(choice) }
-      : { ...choice, id: String(choice.id ?? index + 1), label: cleanText(choice.label ?? choice.text) });
+      : {
+          ...choice,
+          id: String(choice.id ?? index + 1),
+          label: cleanText(choice.label ?? choice.text),
+          aliases: (choice.aliases || []).map(cleanText).filter(Boolean),
+        });
     return { ...turn, id, text: cleanText(turn.text), choices };
   }
 

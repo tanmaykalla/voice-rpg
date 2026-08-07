@@ -8,9 +8,10 @@ test("stable IDs are deterministic and content-sensitive", () => {
 });
 
 test("matcher handles words and option letters", () => {
-  const choices = [{ label: "Stop the boat" }, { label: "Turn the boat" }];
+  const choices = [{ label: "Stop the boat" }, { label: "Turn the boat", aliases: ["change direction"] }];
   assert.equal(matchChoices("stop the boot", choices).index, 0);
   assert.equal(matchChoices("option B", choices).index, 1);
+  assert.equal(matchChoices("change direction", choices).index, 1);
 });
 
 test("runtime narrates, listens, and activates only an authored choice", async () => {
@@ -24,4 +25,3 @@ test("runtime narrates, listens, and activates only an authored choice", async (
   assert.deepEqual(spoken.slice(0, 2), ["A road divides.", "Your choices are."]);
   assert.equal(observer.events.find((event) => event.type === "stt").outcome, "selected");
 });
-

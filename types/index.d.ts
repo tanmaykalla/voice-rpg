@@ -1,6 +1,7 @@
 export interface VoiceChoice {
   id: string;
   label: string;
+  aliases?: string[];
   speechId?: string;
   activate?: () => void;
 }
@@ -51,4 +52,3 @@ export class GameEngineAdapter extends EventTarget { constructor(options: { runt
 export class WindowMessageGameEngineAdapter extends GameEngineAdapter { start(): this; destroy(): Promise<void>; }
 export function matchChoices(alternatives: string | string[], choices: Array<VoiceChoice | string>): { index: number; score: number; margin: number; via: string; confident: boolean };
 export function stableLineId(scope: string, key: string, text: string): string;
-

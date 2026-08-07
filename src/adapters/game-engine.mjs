@@ -14,6 +14,7 @@ export class GameEngineAdapter extends EventTarget {
     return this.runtime.present({
       id: turnId, text, speaker, emotion, metadata,
       choices: choices.map((choice, index) => ({
+        ...choice,
         id: String(choice.id ?? index + 1), label: choice.label ?? choice.text,
         activate: choice.activate || (() => this.dispatchEvent(new CustomEvent("command", { detail: { type: "select", turnId, choiceId: String(choice.id ?? index + 1), index } }))),
       })),
@@ -43,4 +44,3 @@ export class WindowMessageGameEngineAdapter extends GameEngineAdapter {
 
   destroy() { globalThis.removeEventListener("message", this.onMessage); return this.stop(); }
 }
-

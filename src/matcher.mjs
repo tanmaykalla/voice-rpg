@@ -40,10 +40,14 @@ export function matchChoices(alternatives, choices) {
   for (const heard of heardValues) {
     const explicit = explicitIndex(heard);
     if (explicit >= 0 && explicit < choices.length) return { index: explicit, score: 1, margin: 1, via: "ordinal", confident: true };
-    const ranked = choices.map((choice, index) => ({ index, score: scoreOne(heard, choice.label ?? choice.text ?? choice) })).sort((a, b) => b.score - a.score);
+    const ranked = choices.map((choice, index) => {
+      const phrases = typeof choice === "string"
+        ? [choice]
+        : [choice.label ?? choice.text, ...(Array.isArray(choice.aliases) ? choice.aliases : [])].filter(Boolean);
+      return { index, score: Math.max(0, ...phrases.map((phrase) => scoreOne(heard, phrase))) };
+    }).sort((a, b) => b.score - a.score);
     if (ranked[0] && ranked[0].score > best.score) best = { index: ranked[0].index, score: ranked[0].score, second: ranked[1]?.score || 0, via: "semantic" };
   }
   const margin = Math.round((best.score - best.second) * 100) / 100;
   return { index: best.index, score: Math.round(best.score * 100) / 100, margin, via: best.via, confident: best.score >= 0.5 && margin >= 0.15 };
 }
-

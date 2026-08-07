@@ -1,0 +1,4 @@
+interface:
+  display_name: "Integrate Voice Accessibility"
+  short_description: "Connect game narration and controls to voice"
+  default_prompt: "Use $integrate-voice-accessibility to inspect this game and generate a reviewable voice accessibility integration."

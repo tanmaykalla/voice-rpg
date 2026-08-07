@@ -11,6 +11,15 @@ The repository contains:
 - Offline audio-manifest playback at runtime.
 - Chatterbox batch TTS by default, with Sarvam Bulbul v3 and ElevenLabs v3 generators.
 - Provider interfaces so applications can add other TTS or STT services.
+- A repository-owned Codex skill that inventories narration and valid actions and builds a reviewable integration.
+
+## AI-assisted game integration
+
+Codex users can invoke [`$integrate-voice-accessibility`](.agents/skills/integrate-voice-accessibility/SKILL.md) from this repository to inspect a Twine, HTML, Unity, Godot, or custom game project. The skill generates or updates a stable voice manifest, adds the appropriate adapter, labels ambiguous controls for review, and verifies the integration.
+
+The skill runs during development. It does not place an LLM agent in the shipped game: runtime speech remains constrained to the actions supplied by the current game state.
+
+For controls without visible text, integrations can provide `data-voice-label` and comma-separated `data-voice-aliases`. Engine choices accept the equivalent `label` and `aliases` fields.
 
 ## Architecture
 
